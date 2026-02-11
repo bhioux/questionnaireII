@@ -3,6 +3,8 @@ import { Container, Paper, Typography, TextField, Radio, RadioGroup, FormControl
 import axios from 'axios';
 import Logo from './Logo';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 export default function QuestionnaireForm({ title, section, sectionData, logoSection }) {
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
@@ -48,7 +50,7 @@ export default function QuestionnaireForm({ title, section, sectionData, logoSec
     }
     setLoading(true);
     try {
-      await axios.post('http://localhost:3001/api/submit', { section, data: formData });
+      await axios.post(`${API_URL}/api/submit`, { section, data: formData });
       setSubmitted(true);
       setSuccess('Thank you! Your response has been submitted.');
     } catch (err) {

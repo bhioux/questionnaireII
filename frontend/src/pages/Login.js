@@ -4,6 +4,8 @@ import { Container, Paper, TextField, Button, Typography, Box, Alert } from '@mu
 import axios from 'axios';
 import Logo from '../components/Logo';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 export default function Login({ setToken, setRole }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -16,7 +18,7 @@ export default function Login({ setToken, setRole }) {
     setError('');
     setLoading(true);
     try {
-      const { data } = await axios.post('http://localhost:3001/api/login', { username, password });
+      const { data } = await axios.post(`${API_URL}/api/login`, { username, password });
       localStorage.setItem('token', data.token);
       localStorage.setItem('role', data.role);
       localStorage.setItem('username', data.username);

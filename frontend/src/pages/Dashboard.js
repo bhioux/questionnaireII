@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Box, Button, Tabs, Tab, Table, TableBody, TableCell, TableHead, TableRow, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Select, MenuItem, FormControl, InputLabel, IconButton, Alert, Snackbar, CircularProgress } from '@mui/material';
-import { Download, Logout, Add, Delete, Home } from '@mui/icons-material';
+import { Download, Logout, Add, Delete, Home, Edit } from '@mui/icons-material';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import Logo from '../components/Logo';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 export default function Dashboard({ token, role, setToken, setRole }) {
   const [tab, setTab] = useState(0);
   const [responses, setResponses] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [editingResponse, setEditingResponse] = useState(null);
   const [newAdmin, setNewAdmin] = useState({ username: '', password: '', role: 'admin' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -34,7 +38,7 @@ export default function Dashboard({ token, role, setToken, setRole }) {
   const fetchResponses = async (section) => {
     setLoading(true);
     try {
-      const { data } = await axios.get(`http://localhost:3001/api/responses/${section}`, {
+      const { data } = await axios.get(`${API_URL}/api/responses/${section}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setResponses(data || []);
@@ -49,7 +53,7 @@ export default function Dashboard({ token, role, setToken, setRole }) {
   const fetchAdmins = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get('http://localhost:3001/api/admin/list', {
+      const { data } = await axios.get(`${API_URL}/api/admin/list`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAdmins(data || []);
@@ -64,7 +68,7 @@ export default function Dashboard({ token, role, setToken, setRole }) {
   const createAdmin = async () => {
     setLoading(true);
     try {
-      await axios.post('http://localhost:3001/api/admin/create', newAdmin, {
+      await axios.post(`${API_URL}/api/admin/create`, newAdmin, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSuccess('Admin created successfully');
@@ -81,13 +85,44 @@ export default function Dashboard({ token, role, setToken, setRole }) {
   const deleteAdmin = async (id) => {
     if (!window.confirm('Delete this admin?')) return;
     try {
-      await axios.delete(`http://localhost:3001/api/admin/${id}`, {
+      await axios.delete(`${API_URL}/api/admin/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSuccess('Admin deleted');
       fetchAdmins();
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to delete admin');
+    }
+  };
+
+  const deleteResponse = async (id) => {
+    if (!window.confirm('Delete this response?')) return;
+    try {
+      await axios.delete(`${API_URL}/api/responses/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setSuccess('Response deleted');
+      fetchResponses(sections[tab]);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to delete response');
+    }
+  };
+
+  const updateResponse = async () => {
+    setLoading(true);
+    try {
+      await axios.put(`${API_URL}/api/responses/${editingResponse._id}`, 
+        { data: editingResponse.data },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setSuccess('Response updated');
+      setOpenEditDialog(false);
+      setEditingResponse(null);
+      fetchResponses(sections[tab]);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to update response');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -206,18 +241,29 @@ export default function Dashboard({ token, role, setToken, setRole }) {
                   <TableRow>
                     <TableCell>Submitted At</TableCell>
                     <TableCell>Responses</TableCell>
+                    {isSuperAdmin && <TableCell>Actions</TableCell>}
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {responses.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={2} align="center">No responses yet</TableCell>
+                      <TableCell colSpan={isSuperAdmin ? 3 : 2} align="center">No responses yet</TableCell>
                     </TableRow>
                   ) : (
                     responses.filter(r => r && r._id).map((r) => (
                       <TableRow key={r._id}>
                         <TableCell>{new Date(r.submittedAt).toLocaleString()}</TableCell>
                         <TableCell>{Object.keys(r.data || {}).length} fields</TableCell>
+                        {isSuperAdmin && (
+                          <TableCell>
+                            <IconButton onClick={() => { setEditingResponse(r); setOpenEditDialog(true); }} color="primary">
+                              <Edit />
+                            </IconButton>
+                            <IconButton onClick={() => deleteResponse(r._id)} color="error">
+                              <Delete />
+                            </IconButton>
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))
                   )}
@@ -273,6 +319,36 @@ export default function Dashboard({ token, role, setToken, setRole }) {
           )}
         </>
       )}
+
+      <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)} maxWidth="md" fullWidth>
+        <DialogTitle>Edit Response</DialogTitle>
+        <DialogContent>
+          {editingResponse && Object.entries(editingResponse.data || {}).map(([key, value]) => (
+            <TextField
+              key={key}
+              fullWidth
+              label={key}
+              value={Array.isArray(value) ? value.join(', ') : value}
+              onChange={(e) => {
+                const newValue = Array.isArray(value) ? e.target.value.split(', ') : e.target.value;
+                setEditingResponse({ 
+                  ...editingResponse, 
+                  data: { ...editingResponse.data, [key]: newValue } 
+                });
+              }}
+              margin="normal"
+              multiline={typeof value === 'string' && value.length > 50}
+              rows={typeof value === 'string' && value.length > 50 ? 3 : 1}
+            />
+          ))}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
+          <Button onClick={updateResponse} variant="contained" disabled={loading}>
+            {loading ? 'Updating...' : 'Update'}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>Create New Admin</DialogTitle>

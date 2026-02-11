@@ -6,9 +6,11 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const app = express();
-const JWT_SECRET = 'your-secret-key-change-in-production';
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongodb:27017/questionnaireDB';
+const PORT = process.env.PORT || 3001;
 
-mongoose.connect('mongodb://mongodb:27017/questionnaireDB', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log('MongoDB connection error: ', err));
 
@@ -133,4 +135,22 @@ app.delete('/api/admin/:id', auth, superAdminAuth, async (req, res) => {
   }
 });
 
-app.listen(3001, () => console.log('Server running on port 3001'));
+app.delete('/api/responses/:id', auth, superAdminAuth, async (req, res) => {
+  try {
+    await Response.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/responses/:id', auth, superAdminAuth, async (req, res) => {
+  try {
+    await Response.findByIdAndUpdate(req.params.id, { data: req.body.data });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
