@@ -192,24 +192,24 @@ export default function Dashboard({ token, role, setToken, setRole }) {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 }, px: { xs: 1, md: 3 } }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4, flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
           <Logo section="Admin" />
-          <Box>
-            <Typography variant="h4">Admin Dashboard</Typography>
+          <Box sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
+            <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', md: '2.125rem' } }}>Admin Dashboard</Typography>
             <Typography variant="caption" color="text.secondary">
               {localStorage.getItem('username')} ({role})
             </Typography>
           </Box>
         </Box>
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button startIcon={<Home />} onClick={() => navigate('/')}>Main Menu</Button>
-          <Button startIcon={<Logout />} onClick={handleLogout}>Logout</Button>
+        <Box sx={{ display: 'flex', gap: 1, flexDirection: { xs: 'column', sm: 'row' }, width: { xs: '100%', sm: 'auto' } }}>
+          <Button startIcon={<Home />} onClick={() => navigate('/')} sx={{ width: { xs: '100%', sm: 'auto' } }}>Main Menu</Button>
+          <Button startIcon={<Logout />} onClick={handleLogout} sx={{ width: { xs: '100%', sm: 'auto' } }}>Logout</Button>
         </Box>
       </Box>
 
-      <Tabs value={tab} onChange={(e, v) => setTab(v)} sx={{ mb: 3 }}>
+      <Tabs value={tab} onChange={(e, v) => setTab(v)} sx={{ mb: 3 }} variant="scrollable" scrollButtons="auto">
         <Tab label="Public" />
         <Tab label="OAPs" />
         <Tab label="Influencers" />
@@ -235,7 +235,7 @@ export default function Dashboard({ token, role, setToken, setRole }) {
               <CircularProgress />
             </Box>
           ) : (
-            <Paper>
+            <Paper sx={{ overflowX: 'auto' }}>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -282,7 +282,7 @@ export default function Dashboard({ token, role, setToken, setRole }) {
               <CircularProgress />
             </Box>
           ) : (
-            <Paper>
+            <Paper sx={{ overflowX: 'auto' }}>
               <Table>
                 <TableHead>
                   <TableRow>

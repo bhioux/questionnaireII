@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Paper, Typography, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Checkbox, FormGroup, Button, Box, Stepper, Step, StepLabel, Alert } from '@mui/material';
+import { Container, Paper, Typography, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Checkbox, FormGroup, Button, Box, Stepper, Step, StepLabel, StepButton, Alert, Select, MenuItem } from '@mui/material';
 import axios from 'axios';
 import Logo from './Logo';
 
@@ -62,7 +62,7 @@ export default function QuestionnaireForm({ title, section, sectionData, logoSec
 
   if (submitted) {
     return (
-      <Container maxWidth="md" sx={{ py: 8 }}>
+      <Container maxWidth="md" sx={{ py: { xs: 4, md: 8 } }}>
         <Alert severity="success">{success}</Alert>
       </Container>
     );
@@ -71,22 +71,38 @@ export default function QuestionnaireForm({ title, section, sectionData, logoSec
   const currentSection = sectionData[activeStep];
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+    <Container maxWidth="md" sx={{ py: { xs: 2, md: 4 }, px: { xs: 2, md: 3 } }}>
       <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
         <Logo section={logoSection} />
       </Box>
-      <Typography variant="h4" align="center" gutterBottom>{title}</Typography>
+      <Typography variant="h4" align="center" gutterBottom sx={{ fontSize: { xs: '1.5rem', md: '2.125rem' } }}>{title}</Typography>
       <Typography variant="body2" align="center" color="text.secondary" paragraph>
-        Federal University Oye-Ekiti & National Research Fund
+        Online Media Falsehoods and the Influence of On-Air Personalities and Social Media Influencers on National Integration in Nigeria
       </Typography>
-      <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
+      <Stepper
+        activeStep={activeStep}
+        nonLinear
+        sx={{
+          mb: 4,
+          flexWrap: 'wrap',
+          '& .MuiStepConnector-line': { borderStyle: 'solid', borderColor: 'divider' }
+        }}
+      >
         {sectionData.map((s, i) => (
-          <Step key={i}><StepLabel>{s.title}</StepLabel></Step>
+          <Step key={i}>
+            <StepButton
+              onClick={() => { if (i <= activeStep) setActiveStep(i); }}
+              disabled={i > activeStep}
+              sx={{ cursor: i > activeStep ? 'default' : 'pointer' }}
+            >
+              {s.title}
+            </StepButton>
+          </Step>
         ))}
       </Stepper>
-      <Paper sx={{ p: 4 }}>
+      <Paper sx={{ p: { xs: 2, md: 4 } }}>
         {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
-        <Typography variant="h5" gutterBottom>{currentSection.title}</Typography>
+        <Typography variant="h5" gutterBottom sx={{ fontSize: { xs: '1.25rem', md: '1.5rem' } }}>{currentSection.title}</Typography>
         {currentSection.questions.map((q, i) => (
           <FormControl fullWidth key={i} sx={{ mb: 3 }} error={!!errors[q.field]}>
             <FormLabel required={q.required !== false}>{q.question}</FormLabel>
@@ -107,6 +123,18 @@ export default function QuestionnaireForm({ title, section, sectionData, logoSec
                 ))}
               </FormGroup>
             )}
+            {q.type === 'select' && (
+              <Select
+                value={formData[q.field] || ''}
+                onChange={(e) => handleChange(q.field, e.target.value)}
+                error={!!errors[q.field]}
+              >
+                <MenuItem value=""><em>Select...</em></MenuItem>
+                {q.options.map((opt) => (
+                  <MenuItem key={opt} value={opt}>{opt}</MenuItem>
+                ))}
+              </Select>
+            )}
             {q.type === 'text' && (
               <TextField 
                 value={formData[q.field] || ''} 
@@ -122,14 +150,14 @@ export default function QuestionnaireForm({ title, section, sectionData, logoSec
             )}
           </FormControl>
         ))}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
-          <Button disabled={activeStep === 0 || loading} onClick={handleBack}>Back</Button>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4, flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
+          <Button disabled={activeStep === 0 || loading} onClick={handleBack} sx={{ width: { xs: '100%', sm: 'auto' } }}>Back</Button>
           {activeStep === sectionData.length - 1 ? (
-            <Button variant="contained" onClick={handleSubmit} disabled={loading}>
+            <Button variant="contained" onClick={handleSubmit} disabled={loading} sx={{ width: { xs: '100%', sm: 'auto' } }}>
               {loading ? 'Submitting...' : 'Submit'}
             </Button>
           ) : (
-            <Button variant="contained" onClick={handleNext} disabled={loading}>Next</Button>
+            <Button variant="contained" onClick={handleNext} disabled={loading} sx={{ width: { xs: '100%', sm: 'auto' } }}>Next</Button>
           )}
         </Box>
       </Paper>

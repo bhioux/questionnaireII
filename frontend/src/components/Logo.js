@@ -3,8 +3,11 @@ import { Box } from '@mui/material';
 
 export default function Logo({ section }) {
   return (
-    <Box sx={{ width: 120, height: 120, bgcolor: '#e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 2, mb: 2 }}>
-      <span style={{ fontSize: 12, color: '#666' }}>{section} Logo</span>
+    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', justifyContent: 'center', mb: 2, flexWrap: 'wrap' }}>
+      <img src="/assets/img/fuoye.jpeg" alt="FUOYE Logo" style={{ height: 80, width: 'auto', objectFit: 'contain' }} />
+      <img src="/assets/img/futa.jpeg" alt="FUTA Logo" style={{ height: 80, width: 'auto', objectFit: 'contain' }} />
+      <img src="/assets/img/unijos.jpeg" alt="UNIJOS Logo" style={{ height: 80, width: 'auto', objectFit: 'contain' }} />
+      <img src="/assets/img/unizik.png" alt="UNIZIK Logo" style={{ height: 80, width: 'auto', objectFit: 'contain' }} />
     </Box>
   );
 }

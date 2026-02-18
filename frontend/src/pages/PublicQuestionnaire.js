@@ -1,6 +1,13 @@
 import React from 'react';
 import QuestionnaireForm from '../components/QuestionnaireForm';
 
+const NIGERIAN_STATES = [
+  'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa', 'Benue', 'Borno', 'Cross River',
+  'Delta', 'Ebonyi', 'Edo', 'Ekiti', 'Enugu', 'Gombe', 'Imo', 'Jigawa', 'Kaduna', 'Kano', 'Katsina',
+  'Kebbi', 'Kogi', 'Kwara', 'Lagos', 'Nasarawa', 'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo', 'Plateau',
+  'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara', 'FCT'
+];
+
 export default function PublicQuestionnaire() {
   const sectionData = [
     {
@@ -10,10 +17,10 @@ export default function PublicQuestionnaire() {
         { field: 'education', question: 'Highest Educational Background:', type: 'radio', options: ['No formal education', 'Primary education', 'Secondary education', 'Diploma or equivalent', "Bachelor's degree", "Master's degree", 'Doctorate or equivalent'] },
         { field: 'gender', question: 'Gender:', type: 'radio', options: ['Male', 'Female'] },
         { field: 'region', question: 'Region:', type: 'radio', options: ['North-Central', 'North-East', 'North-West', 'South-East', 'South-South', 'South-west'] },
-        { field: 'state', question: 'State:', type: 'text' },
+        { field: 'state', question: 'State:', type: 'select', options: NIGERIAN_STATES },
         { field: 'occupation', question: 'Occupation:', type: 'radio', options: ['Student', 'Civil servant', 'Private sector employee', 'Self-employed', 'Academic or researcher', 'Media practitioner', 'Unemployed', 'Other'] },
         { field: 'socialMediaFreq', question: 'How often do you use social media?', type: 'radio', options: ['Daily', 'Weekly', 'Monthly', 'Rarely', 'Never'] },
-        { field: 'platforms', question: 'Which online media platforms do you use?', type: 'checkbox', options: ['Facebook', 'Twitter', 'Instagram', 'YouTube', 'TikTok', 'Radio', 'Television', 'WhatsApp', 'LinkedIn', 'Snapchat'] },
+        { field: 'platforms', question: 'Which online media platforms do you use?', type: 'checkbox', options: ['Facebook', 'X (Twitter)', 'Instagram', 'YouTube', 'TikTok', 'Radio', 'Television', 'WhatsApp', 'LinkedIn', 'Snapchat'] },
         { field: 'onlineYears', question: 'How long have you been active online?', type: 'radio', options: ['Less than a year', '1-2 years', '3-5 years', 'More than 5 years'] },
         { field: 'hoursPerDay', question: 'On average, how many hours per day do you spend online?', type: 'radio', options: ['Less than 1 hour', '1-2 hours', '3-4 hours', '5 or more hours'] }
       ]

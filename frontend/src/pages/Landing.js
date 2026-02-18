@@ -14,26 +14,26 @@ export default function Landing() {
   ];
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 }, px: { xs: 2, md: 3 } }}>
       <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
         <Logo section="Main" />
       </Box>
-      <Typography variant="h3" align="center" gutterBottom>
-        Falsehoods Research Study
+      <Typography variant="h3" align="center" gutterBottom sx={{ fontSize: { xs: '1.75rem', md: '3rem' } }}>
+        Online Media Falsehoods and the Influence of On-Air Personalities and Social Media Influencers on National Integration in Nigeria
       </Typography>
-      <Typography variant="subtitle1" align="center" color="text.secondary" paragraph>
+      <Typography variant="subtitle1" align="center" color="text.secondary" paragraph sx={{ fontSize: { xs: '0.875rem', md: '1rem' } }}>
         Federal University Oye-Ekiti & National Research Fund
       </Typography>
       <Grid container spacing={3} sx={{ mt: 4 }}>
         {sections.map((section) => (
-          <Grid item xs={12} md={6} key={section.path}>
-            <Card>
-              <CardContent>
-                <Typography variant="h5" gutterBottom>{section.title}</Typography>
+          <Grid item xs={12} sm={6} md={6} key={section.path}>
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+              <CardContent sx={{ flexGrow: 1 }}>
+                <Typography variant="h5" gutterBottom sx={{ fontSize: { xs: '1.25rem', md: '1.5rem' } }}>{section.title}</Typography>
                 <Typography variant="body2" color="text.secondary">{section.desc}</Typography>
               </CardContent>
               <CardActions>
-                <Button size="large" onClick={() => navigate(section.path)}>Start</Button>
+                <Button size="large" onClick={() => navigate(section.path)} fullWidth>Start</Button>
               </CardActions>
             </Card>
           </Grid>

@@ -33,12 +33,12 @@ export default function Login({ setToken, setRole }) {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 8 }}>
-      <Paper sx={{ p: 4 }}>
+    <Container maxWidth="sm" sx={{ mt: { xs: 4, md: 8 }, px: { xs: 2, md: 3 } }}>
+      <Paper sx={{ p: { xs: 3, md: 4 } }}>
         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
           <Logo section="Admin" />
         </Box>
-        <Typography variant="h4" align="center" gutterBottom>Admin Login</Typography>
+        <Typography variant="h4" align="center" gutterBottom sx={{ fontSize: { xs: '1.5rem', md: '2.125rem' } }}>Admin Login</Typography>
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
         <form onSubmit={handleLogin}>
           <TextField fullWidth label="Username" value={username} onChange={(e) => setUsername(e.target.value)} margin="normal" />
