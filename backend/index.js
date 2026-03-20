@@ -78,6 +78,16 @@ const superAdminAuth = (req, res, next) => {
 
 app.post('/api/submit', async (req, res) => {
   try {
+    const { section, data } = req.body || {};
+
+    if (!section || typeof section !== 'string' || !section.trim()) {
+      return res.status(400).json({ error: 'Valid section is required' });
+    }
+
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+      return res.status(400).json({ error: 'Valid data object is required' });
+    }
+
     await new Response(req.body).save();
     res.json({ success: true });
   } catch (err) {
@@ -146,7 +156,16 @@ app.delete('/api/responses/:id', auth, superAdminAuth, async (req, res) => {
 
 app.put('/api/responses/:id', auth, superAdminAuth, async (req, res) => {
   try {
-    await Response.findByIdAndUpdate(req.params.id, { data: req.body.data });
+    const updated = await Response.findByIdAndUpdate(
+      req.params.id,
+      { data: req.body.data },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ error: 'Response not found' });
+    }
+
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });

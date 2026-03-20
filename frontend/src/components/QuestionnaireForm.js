@@ -21,12 +21,64 @@ export default function QuestionnaireForm({ title, section, sectionData, logoSec
     }
   };
 
+  const isQuestionVisible = (question) => {
+    if (!question.showIf) {
+      return true;
+    }
+
+    const parentValue = formData[question.showIf.field];
+
+    if (Array.isArray(parentValue)) {
+      if (question.showIf.includes) {
+        return parentValue.includes(question.showIf.includes);
+      }
+      if (Array.isArray(question.showIf.includesAny)) {
+        return question.showIf.includesAny.some((value) => parentValue.includes(value));
+      }
+    }
+
+    if (question.showIf.equals !== undefined) {
+      return parentValue === question.showIf.equals;
+    }
+    if (question.showIf.notEquals !== undefined) {
+      return parentValue !== question.showIf.notEquals;
+    }
+
+    return true;
+  };
+
+  const needsOtherText = (question) => {
+    if (!question.otherField) {
+      return false;
+    }
+    const triggerValue = question.otherTrigger || 'Other';
+    const answer = formData[question.field];
+
+    if (Array.isArray(answer)) {
+      return answer.includes(triggerValue);
+    }
+
+    return answer === triggerValue;
+  };
+
   const validateStep = () => {
     const currentSection = sectionData[activeStep];
     const newErrors = {};
-    currentSection.questions.forEach(q => {
-      if (q.required !== false && !formData[q.field]) {
+    currentSection.questions.forEach((q) => {
+      if (!isQuestionVisible(q)) {
+        return;
+      }
+
+      const value = formData[q.field];
+      const isEmptyCheckbox = q.type === 'checkbox' && (!Array.isArray(value) || value.length === 0);
+      const isEmptyText = q.type !== 'checkbox' && !value;
+
+      if (q.required !== false && (isEmptyCheckbox || isEmptyText)) {
         newErrors[q.field] = 'This field is required';
+      }
+
+      if (needsOtherText(q) && !formData[q.otherField]) {
+        newErrors[q.otherField] = 'Please specify';
       }
     });
     setErrors(newErrors);
@@ -103,53 +155,67 @@ export default function QuestionnaireForm({ title, section, sectionData, logoSec
       <Paper sx={{ p: { xs: 2, md: 4 } }}>
         {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>{error}</Alert>}
         <Typography variant="h5" gutterBottom sx={{ fontSize: { xs: '1.25rem', md: '1.5rem' } }}>{currentSection.title}</Typography>
-        {currentSection.questions.map((q, i) => (
-          <FormControl fullWidth key={i} sx={{ mb: 3 }} error={!!errors[q.field]}>
-            <FormLabel required={q.required !== false}>{q.question}</FormLabel>
-            {q.type === 'radio' && (
-              <RadioGroup value={formData[q.field] || ''} onChange={(e) => handleChange(q.field, e.target.value)}>
-                {q.options.map((opt) => (
-                  <FormControlLabel key={opt} value={opt} control={<Radio />} label={opt} />
-                ))}
-              </RadioGroup>
-            )}
-            {q.type === 'checkbox' && (
-              <FormGroup>
-                {q.options.map((opt) => (
-                  <FormControlLabel key={opt} control={<Checkbox checked={formData[q.field]?.includes(opt)} onChange={(e) => {
-                    const current = formData[q.field] || [];
-                    handleChange(q.field, e.target.checked ? [...current, opt] : current.filter(v => v !== opt));
-                  }} />} label={opt} />
-                ))}
-              </FormGroup>
-            )}
-            {q.type === 'select' && (
-              <Select
-                value={formData[q.field] || ''}
-                onChange={(e) => handleChange(q.field, e.target.value)}
-                error={!!errors[q.field]}
-              >
-                <MenuItem value=""><em>Select...</em></MenuItem>
-                {q.options.map((opt) => (
-                  <MenuItem key={opt} value={opt}>{opt}</MenuItem>
-                ))}
-              </Select>
-            )}
-            {q.type === 'text' && (
-              <TextField 
-                value={formData[q.field] || ''} 
-                onChange={(e) => handleChange(q.field, e.target.value)} 
-                multiline={q.multiline} 
-                rows={q.multiline ? 3 : 1}
-                error={!!errors[q.field]}
-                helperText={errors[q.field]}
-              />
-            )}
-            {errors[q.field] && q.type !== 'text' && (
-              <Typography variant="caption" color="error">{errors[q.field]}</Typography>
-            )}
-          </FormControl>
-        ))}
+        {currentSection.questions.filter((q) => isQuestionVisible(q)).map((q, i) => {
+          const showOtherText = needsOtherText(q);
+
+          return (
+            <FormControl fullWidth key={i} sx={{ mb: 3 }} error={!!errors[q.field] || !!errors[q.otherField]}>
+              <FormLabel required={q.required !== false}>{q.question}</FormLabel>
+              {q.type === 'radio' && (
+                <RadioGroup value={formData[q.field] || ''} onChange={(e) => handleChange(q.field, e.target.value)}>
+                  {q.options.map((opt) => (
+                    <FormControlLabel key={opt} value={opt} control={<Radio />} label={opt} />
+                  ))}
+                </RadioGroup>
+              )}
+              {q.type === 'checkbox' && (
+                <FormGroup>
+                  {q.options.map((opt) => (
+                    <FormControlLabel key={opt} control={<Checkbox checked={formData[q.field]?.includes(opt)} onChange={(e) => {
+                      const current = formData[q.field] || [];
+                      handleChange(q.field, e.target.checked ? [...current, opt] : current.filter((v) => v !== opt));
+                    }} />} label={opt} />
+                  ))}
+                </FormGroup>
+              )}
+              {q.type === 'select' && (
+                <Select
+                  value={formData[q.field] || ''}
+                  onChange={(e) => handleChange(q.field, e.target.value)}
+                  error={!!errors[q.field]}
+                >
+                  <MenuItem value=""><em>Select...</em></MenuItem>
+                  {q.options.map((opt) => (
+                    <MenuItem key={opt} value={opt}>{opt}</MenuItem>
+                  ))}
+                </Select>
+              )}
+              {q.type === 'text' && (
+                <TextField
+                  value={formData[q.field] || ''}
+                  onChange={(e) => handleChange(q.field, e.target.value)}
+                  multiline={q.multiline}
+                  rows={q.multiline ? 3 : 1}
+                  error={!!errors[q.field]}
+                  helperText={errors[q.field]}
+                />
+              )}
+              {showOtherText && (
+                <TextField
+                  sx={{ mt: 1 }}
+                  label={q.otherLabel || 'Please specify'}
+                  value={formData[q.otherField] || ''}
+                  onChange={(e) => handleChange(q.otherField, e.target.value)}
+                  error={!!errors[q.otherField]}
+                  helperText={errors[q.otherField]}
+                />
+              )}
+              {errors[q.field] && q.type !== 'text' && (
+                <Typography variant="caption" color="error">{errors[q.field]}</Typography>
+              )}
+            </FormControl>
+          );
+        })}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4, flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
           <Button disabled={activeStep === 0 || loading} onClick={handleBack} sx={{ width: { xs: '100%', sm: 'auto' } }}>Back</Button>
           {activeStep === sectionData.length - 1 ? (
