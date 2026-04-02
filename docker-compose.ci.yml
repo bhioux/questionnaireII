@@ -1,0 +1,22 @@
+services:
+  mongodb:
+    image: mongo:6
+    volumes:
+      - mongo-data-ci:/data/db
+
+  backend:
+    build: ./backend
+    ports:
+      - "3301:3001"
+    depends_on:
+      - mongodb
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3300:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data-ci:

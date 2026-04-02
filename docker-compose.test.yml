@@ -1,0 +1,12 @@
+services:
+  mongodb:
+    ports:
+      - "27018:27017"
+
+  backend:
+    ports:
+      - "3301:3001"
+
+  frontend:
+    ports:
+      - "3300:3000"

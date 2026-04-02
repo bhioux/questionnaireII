@@ -180,6 +180,7 @@ export default function QuestionnaireForm({ title, section, sectionData, logoSec
               )}
               {q.type === 'select' && (
                 <Select
+                  fullWidth
                   value={formData[q.field] || ''}
                   onChange={(e) => handleChange(q.field, e.target.value)}
                   error={!!errors[q.field]}
@@ -192,6 +193,7 @@ export default function QuestionnaireForm({ title, section, sectionData, logoSec
               )}
               {q.type === 'text' && (
                 <TextField
+                  fullWidth
                   value={formData[q.field] || ''}
                   onChange={(e) => handleChange(q.field, e.target.value)}
                   multiline={q.multiline}
