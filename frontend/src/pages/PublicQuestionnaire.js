@@ -88,40 +88,40 @@ export default function PublicQuestionnaire() {
         { field: 'relyInfluencerUpdates', question: '63. I rely on influencers for updates on national issues.', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
         { field: 'believeOAPShareFalse', question: '64. I believe that OAPs often share false information.', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
         { field: 'believeInfluencerShareFalse', question: '65. Social media influencers often share false information.', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
-        { field: 'relyOAPUpdates', question: '66. I rely on OAPs for updates on national issues.', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
-        { field: 'postsShapeNationalOpinion', question: '67. Posts by OAPs or influencers shape my opinion on national issues.', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
-        { field: 'postsShapeIntergroupOpinion', question: '68. Posts by OAPs or influencers shape my opinion on intergroup relations.', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] }
+        { field: 'relyOAPUpdates', question: '65. I rely on OAPs for updates on national issues.', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
+        { field: 'postsShapeNationalOpinion', question: '66. Posts by OAPs or influencers shape my opinion on national issues.', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
+        { field: 'postsShapeIntergroupOpinion', question: '67. Posts by OAPs or influencers shape my opinion on intergroup relations.', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] }
       ]
     },
     {
       title: 'Section 4: AI Solutions to Combat Falsehoods',
       questions: [
-        { field: 'familiarAI', question: '69. Are you familiar with AI tools or initiatives aimed at combating falsehoods?', type: 'radio', options: ['Yes', 'No'] },
-        { field: 'familiarAIList', question: '70. If yes, please list:', type: 'text', multiline: true, required: false, showIf: { field: 'familiarAI', equals: 'Yes' } },
-        { field: 'aiEffectiveness', question: '71. How effective do you believe AI would be in identifying false or misleading information?', type: 'radio', options: ['Very effective', 'Effective', 'Ineffective', 'Very ineffective'] },
-        { field: 'useAITools', question: '72. How often do you use tools or apps that help verify information online?', type: 'radio', options: ['Very often', 'Often', 'Sometimes', 'Rarely', 'Never'] },
-        { field: 'relyAIToolsLikelihood', question: '73. How likely are you to rely on AI tools for fact-checking before sharing content?', type: 'radio', options: ['Very likely', 'Likely', 'Unlikely', 'Very unlikely'] },
-        { field: 'oapInfluencerShouldUseAI', question: '74. Do you believe OAPs and influencers should use AI to improve the quality of information they share?', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
-        { field: 'aiFeatures', question: '75. What features do you believe an effective AI falsehoods tool should have? (Select all that apply)', type: 'checkbox', options: ['User-friendly interface', 'Fast response time', 'Reliable sources', 'Comprehensive database', 'Other'], otherField: 'aiFeaturesOther', otherLabel: 'Please specify' },
-        { field: 'aiLiteracyImportance', question: '76. How important is digital literacy in effectively using AI tools against falsehoods?', type: 'radio', options: ['Very important', 'Important', 'Unimportant', 'Very unimportant'] },
-        { field: 'aiOptimism', question: '77. How optimistic are you about the future role of AI in combating falsehoods?', type: 'radio', options: ['Very optimistic', 'Optimistic', 'Pessimistic', 'Very pessimistic'] },
-        { field: 'aiEthicsSignificance', question: '78. How significant do you think the ethical considerations surrounding AI are in curbing falsehoods?', type: 'radio', options: ['Very significant', 'Significant', 'Insignificant', 'Very insignificant'] }
+        { field: 'familiarAI', question: '68. Are you familiar with AI tools or initiatives aimed at combating falsehoods?', type: 'radio', options: ['Yes', 'No'] },
+        { field: 'familiarAIList', question: '68. If yes, please list:', type: 'text', multiline: true, required: false, showIf: { field: 'familiarAI', equals: 'Yes' } },
+        { field: 'aiEffectiveness', question: '69. How effective do you believe AI would be in identifying false or misleading information?', type: 'radio', options: ['Very effective', 'Effective', 'Ineffective', 'Very ineffective'] },
+        { field: 'useAITools', question: '70. How often do you use tools or apps that help verify information online?', type: 'radio', options: ['Very often', 'Often', 'Sometimes', 'Rarely', 'Never'] },
+        { field: 'relyAIToolsLikelihood', question: '71. How likely are you to rely on AI tools for fact-checking before sharing content?', type: 'radio', options: ['Very likely', 'Likely', 'Unlikely', 'Very unlikely'] },
+        { field: 'oapInfluencerShouldUseAI', question: '72. Do you believe OAPs and influencers should use AI to improve the quality of information they share?', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
+        { field: 'aiFeatures', question: '73. What features do you believe an effective AI falsehoods tool should have? (Select all that apply)', type: 'checkbox', options: ['User-friendly interface', 'Fast response time', 'Reliable sources', 'Comprehensive database', 'Other'], otherField: 'aiFeaturesOther', otherLabel: 'Please specify' },
+        { field: 'aiLiteracyImportance', question: '74. How important is digital literacy in effectively using AI tools against falsehoods?', type: 'radio', options: ['Very important', 'Important', 'Unimportant', 'Very unimportant'] },
+        { field: 'aiOptimism', question: '75. How optimistic are you about the future role of AI in combating falsehoods?', type: 'radio', options: ['Very optimistic', 'Optimistic', 'Pessimistic', 'Very pessimistic'] },
+        { field: 'aiEthicsSignificance', question: '76. How significant do you think the ethical considerations surrounding AI are in curbing falsehoods?', type: 'radio', options: ['Very significant', 'Significant', 'Insignificant', 'Very insignificant'] }
       ]
     },
     {
       title: 'Section 5: Additional Comments',
       questions: [
-        { field: 'challenges', question: '79. What challenges do you face when discerning fact from fiction online?', type: 'text', multiline: true },
-        { field: 'publicAwareness', question: '80. How aware do you believe the general public is about falsehoods?', type: 'radio', options: ['Very aware', 'Somewhat aware', 'Somewhat unaware', 'Very unaware'] },
-        { field: 'eduTraining', question: '81. Should educational institutions provide training on digital literacy and falsehoods?', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
-        { field: 'govTraining', question: '82. Should government institutions provide training on digital literacy and falsehoods?', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
-        { field: 'communityEngagementRole', question: '83. How do you think community engagement can help combat falsehoods?', type: 'text', multiline: true },
-        { field: 'personalExp', question: '84. Share (Highlight) any personal experience related to falsehoods that impacted your views on national issues:', type: 'text', multiline: true },
-        { field: 'communityResourcesNeeded', question: '85. What type of resources would help your community in combating falsehoods?', type: 'text', multiline: true },
-        { field: 'influencerContribution', question: '86. How can influencers contribute positively to national unity through accurate information?', type: 'text', multiline: true },
-        { field: 'platformResponsibilityViews', question: '87. How do you feel about the responsibility of social media platforms in controlling fake news?', type: 'text', multiline: true },
-        { field: 'futureResearch', question: '88. Would you like to participate in future research regarding falsehoods?', type: 'radio', options: ['Yes', 'No'] },
-        { field: 'additionalFeedback', question: '89. Any other comments or feedback for improving understanding of falsehoods and its impacts?', type: 'text', multiline: true, required: false }
+        { field: 'challenges', question: '77. What challenges do you face when discerning fact from fiction online?', type: 'text', multiline: true },
+        { field: 'publicAwareness', question: '78. How aware do you believe the general public is about falsehoods?', type: 'radio', options: ['Very aware', 'Somewhat aware', 'Somewhat unaware', 'Very unaware'] },
+        { field: 'eduTraining', question: '79. Should educational institutions provide training on digital literacy and falsehoods?', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
+        { field: 'govTraining', question: '80. Should government institutions provide training on digital literacy and falsehoods?', type: 'radio', options: ['Strongly agree', 'Agree', 'Disagree', 'Strongly disagree'] },
+        { field: 'communityEngagementRole', question: '81. How do you think community engagement can help combat falsehoods?', type: 'text', multiline: true },
+        { field: 'personalExp', question: '82. Share (Highlight) any personal experience related to falsehoods that impacted your views on national issues:', type: 'text', multiline: true },
+        { field: 'communityResourcesNeeded', question: '83. What type of resources would help your community in combating falsehoods?', type: 'text', multiline: true },
+        { field: 'influencerContribution', question: '84. How can influencers contribute positively to national unity through accurate information?', type: 'text', multiline: true },
+        { field: 'platformResponsibilityViews', question: '85. How do you feel about the responsibility of social media platforms in controlling fake news?', type: 'text', multiline: true },
+        { field: 'futureResearch', question: '86. Would you like to participate in future research regarding falsehoods?', type: 'radio', options: ['Yes', 'No'] },
+        { field: 'additionalFeedback', question: '87. Any other comments or feedback for improving understanding of falsehoods and its impacts?', type: 'text', multiline: true, required: false }
       ]
     }
   ];
