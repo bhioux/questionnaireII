@@ -48,7 +48,7 @@ export default function MediaProfessionalQuestionnaire() {
         { field: 'likelyAdopt', question: 'How likely is your organisation to adopt AI tools for fact-checking?', type: 'radio', options: ['Very likely', 'Likely', 'Unlikely', 'Very unlikely'] },
         { field: 'aiFunctionalities', question: 'Which AI functionalities are most useful?', type: 'checkbox', options: ['Real-time fact-checking', 'Source credibility scoring', 'Detection of coordinated falsehoods', 'Local language support', 'Audience falsehoods alerts'] },
         { field: 'aiEffectiveness', question: 'How effective do you think AI can be in improving news accuracy?', type: 'radio', options: ['Very effective', 'Effective', 'Moderately effective', 'Ineffective', 'Very ineffective'] },
-        { field: 'challenges', question: 'What challenges limit organisational use of AI tools?', type: 'checkbox', options: ['Cost and infrastructure constraints', 'Limited staff expertise', 'Ethical or legal concerns', 'Lack of local data', 'Resistance to technological change'] },
+        
         { field: 'aiGovernancePolicy', question: 'Does your organisation have an internal AI policy or governance framework for editorial use?', type: 'radio', options: ['Yes, fully implemented', 'In development', 'No formal policy', 'Not sure'], required: false },
         { field: 'staffTrainingPriority', question: 'How important is AI/digital verification training for editorial staff?', type: 'radio', options: ['Very important', 'Important', 'Unimportant', 'Very unimportant'], required: false }
       ]

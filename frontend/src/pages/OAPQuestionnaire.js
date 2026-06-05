@@ -10,6 +10,7 @@ export default function OAPQuestionnaire() {
         { field: 'gender', question: 'Gender:', type: 'radio', options: ['Male', 'Female'] },
         { field: 'experience', question: 'Years of on-air experience:', type: 'radio', options: ['Less than 1 year', '1–3 years', '4–6 years', '7–10 years', 'More than 10 years'] },
         { field: 'platform', question: 'Type of Media Platform:', type: 'checkbox', options: ['Television', 'Radio', 'Online', 'Other'], otherField: 'platformOther', otherLabel: 'Media platform (please specify)' },
+        { field: 'primaryLanguage', question: 'Primary Language Used:', type: 'select', options: ['English', 'Pidgin', 'Hausa', 'Yoruba', 'Igbo', 'Other'], otherField: 'primaryLanguageOther', otherLabel: 'Please specify', required: false },
         { field: 'audienceSize', question: "How would you rate your programme's audience size?", type: 'radio', options: ['Very large', 'Large', 'Average', 'Small', 'Very small'] },
         { field: 'contentFocus', question: 'Main Content Focus:', type: 'checkbox', options: ['News', 'Entertainment', 'Educational', 'Sports', 'Talk Show', 'Other'], otherField: 'contentFocusOther', otherLabel: 'Content focus (please specify)' },
         { field: 'education', question: 'What best describes your educational background?', type: 'radio', options: ['No formal tertiary education', 'Diploma', "Bachelor's degree", 'Postgraduate degree'] },
@@ -39,8 +40,7 @@ export default function OAPQuestionnaire() {
         { field: 'counterFalsehoodOnAirFreq', question: 'How often do you actively take steps on air to counter or correct falsehoods?', type: 'radio', options: ['Very often', 'Often', 'Sometimes', 'Rarely', 'Never'] },
         { field: 'oapResponsibilityImportance', question: 'How important is it for OAPs to take responsibility for the content they share?', type: 'radio', options: ['Very important', 'Important', 'Unimportant', 'Very unimportant'] },
         { field: 'confidence', question: 'How confident are you in your ability to distinguish between true and false information?', type: 'radio', options: ['Very confident', 'Confident', 'Not confident', 'Not confident at all'] },
-        { field: 'awareFactCheckingOrg', question: 'Are you familiar with any fact-checking organization?', type: 'radio', options: ['Yes', 'No'] },
-        { field: 'factCheckingOrgNames', question: 'If yes, kindly name the fact-checking organizations.', type: 'text', multiline: true, showIf: { field: 'awareFactCheckingOrg', equals: 'Yes' } }
+        { field: 'awareFactCheckingOrg', question: 'Are you familiar with any fact-checking organization?', type: 'radio', options: ['Yes', 'No'] }
       ]
     },
     {
